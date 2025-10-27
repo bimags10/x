@@ -1,9 +1,38 @@
 <!DOCTYPE html>
-<html>
+<html lang="id">
 <head>
-<script src="ps3hen_v100.js"></script>
-<meta charset="UTF-8"> 
-<title>PS3 HEN Auto Installer</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>Penginstal Otomatis HEN PS3</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;800&display=swap" rel="stylesheet">
+<style>
+  :root{--bg:#0f1022;--card:#111322;--accent:#7C4DFF;--accent-2:#00BFA6;--muted:#c8c8d0;--danger:#ff5c5c}
+  html,body{height:100%;margin:0;font-family:Inter,system-ui,-apple-system,"Segoe UI",Roboto,"Helvetica Neue",Arial;}
+  body{background: linear-gradient(180deg, #7b61ff33 0%, #a79bff22 40%), radial-gradient(1000px 600px at 10% 10%, #ffd6a8 0%, transparent 8%), var(--bg);color:var(--muted);display:flex;align-items:center;justify-content:center;padding:28px;box-sizing:border-box}
+  .card{width:980px;max-width:98vw;background:linear-gradient(180deg, rgba(255,255,255,0.02), rgba(0,0,0,0.06));border-radius:14px;box-shadow:0 10px 40px rgba(12,10,30,0.6);overflow:hidden;border:1px solid rgba(255,255,255,0.03)}
+  .hero{display:flex;gap:20px;padding:28px;align-items:center}
+  .logo{width:120px;height:120px;border-radius:12px;background:linear-gradient(135deg,var(--accent),#4f8bff);display:flex;align-items:center;justify-content:center;color:white;font-weight:700;font-size:20px;box-shadow:0 8px 24px rgba(124,77,255,0.18)}
+  .title{flex:1}
+  h1{margin:0;color:white;font-size:22px;letter-spacing:-0.4px}
+  .subtitle{margin:6px 0 0 0;color:var(--muted);font-size:14px}
+  .meta{margin-top:8px;font-size:13px;color:#bfc6d8}
+  .controls{padding:22px;border-top:1px solid rgba(255,255,255,0.03);display:flex;gap:12px;align-items:center;flex-wrap:wrap}
+  .controls button{background:linear-gradient(180deg,var(--accent),#5a33ff);border:none;color:white;padding:12px 18px;border-radius:10px;font-weight:600;cursor:pointer;box-shadow:0 6px 18px rgba(92,63,255,0.14)}
+  .controls #btnReset{background:transparent;border:1px solid rgba(255,255,255,0.06);color:var(--muted);padding:10px 14px}
+  .controls label{font-size:14px;color:var(--muted);display:flex;align-items:center;gap:8px}
+  .info{padding:20px 28px;background:linear-gradient(180deg,rgba(255,255,255,0.01),rgba(0,0,0,0.03));border-top:1px dashed rgba(255,255,255,0.02);font-size:14px;color:#d6d8e6}
+  .info strong{color:#fff}
+  #result{padding:18px 28px;font-weight:700}
+  #log{padding:12px 28px;font-size:13px;color:#cfcfe0;min-height:48px}
+  .hint{display:inline-block;background:rgba(0,0,0,0.25);padding:6px 10px;border-radius:8px;color:#f6f6f8;font-size:12px}
+  .footer{padding:14px 28px;font-size:12px;color:#9fa6bf;border-top:1px solid rgba(255,255,255,0.02);display:flex;justify-content:space-between;align-items:center}
+  @media (max-width:640px){.hero{flex-direction:column;align-items:flex-start}.logo{width:92px;height:92px}.controls{flex-direction:column;align-items:stretch}}
+</style>
+
+<!-- Jangan mengubah isi file script di bawah --><script src="ps3hen_v100.js"></script>
+<!-- Jangan mengubah skrip inline di bawah -->
 <script>
 function downloadhen()
 {
@@ -122,28 +151,51 @@ function triggerX()
 		cleanGUI();
 }
 </script>
+
 </head>
-	<body id="bodyId" style="background-color:#aa97ff" onload="javascript:downloadhen()">
-	<div id="headerId" style="color:#CC2010">
-	<h1>PS3 HEN Auto Installer</h1>
-	<span style="color:#000000">Jangan kasih tau koh Fut Loi:D</span><hr>
-	<h3>Supports CEX 4.92 HFW Firmware xStorm x Citra Mulia</h3>
-	<span style="color:#0055AA"><h3>INFO: If HEN is already installed, this will act as an Enabler</font></h3>
-	<span style="color:#222222"><h3>Instructions: Click the "Auto Install HEN" button. Wait.</font></h3>
-	<span style="color:#FF1122"><h3>* If initialization fails, set Home Page to about:blank and bookmark this page or return from history. Start browser again, load this page directly, and try again *</font></h3>
-	</div><hr>
-	<p><button id="btnROP" type="button" onclick="initROP(true);" autofocus>Auto Install HEN</button> | Auto-Close Browser <input type="checkbox" id="auto_close" name="aclose" checked="checked" onclick="autoclose();"/><span id="dex_txt" style="visibility:hidden"> | DEX mode<input type="checkbox" id="dex" name="DEX" disabled="" onclick="dex();"/></span></p>
-	<p><button id="btnReset" type="button" onclick="disable_trigger();">Reset</button></span></p>
-	<div id="result" style="color:#CC2010"></div><br>
-	<div id="log"></div>
-	<div id="exploit" ></div>
-	<div id="trigger"></div>
-	<div id="footer"></div>
-	<script>
-		writeEnvInfo();
-		ps3chk();
-		setTimeout(initROP,4000,true);
-		autoclose();
-	</script>
-	</body>
+<body id="bodyId" style="background-color:#aa97ff" onload="javascript:downloadhen()">
+  <div class="card">
+    <div class="hero">
+      <div class="logo">PS3</div>
+      <div class="title" id="headerId">
+        <h1>Penginstal Otomatis HEN — PS3</h1>
+        <div class="subtitle">Rahasiakan dari koh Fut Loi 😉</div>
+        <div class="meta">Mendukung: CEX 4.92 HFW • xStorm • Citra Mulia</div>
+        <div class="meta">INFO: Jika HEN sudah terpasang, ini berfungsi sebagai Enabler</div>
+        <div class="meta" style="margin-top:8px">Petunjuk: Klik tombol <span class="hint">Pasang HEN Otomatis</span>, lalu tunggu proses berjalan.</div>
+      </div>
+    </div>
+
+    <div class="controls">
+      <button id="btnROP" type="button" onclick="initROP(true);" autofocus>Pasang HEN Otomatis</button>
+      <label><input type="checkbox" id="auto_close" name="aclose" checked="checked" onclick="autoclose();"/> Tutup browser otomatis</label>
+      <label id="dex_txt" style="visibility:hidden">Mode DEX <input type="checkbox" id="dex" name="DEX" disabled="" onclick="dex();"/></label>
+      <button id="btnReset" type="button" onclick="disable_trigger();">Reset</button>
+      <div style="flex:1"></div>
+      <div style="font-size:13px;color:#d6d8e6">* Jika inisialisasi gagal: setel Halaman Utama ke <em>about:blank</em>, simpan bookmark halaman ini, lalu muat ulang dan coba lagi.</div>
+    </div>
+
+    <div class="info" id="result">
+      <strong>Status:</strong> Menunggu tindakan. Untuk memulai, tekan tombol <em>Pasang HEN Otomatis</em> di atas.
+    </div>
+
+    <div id="log"></div>
+
+    <div class="footer">
+      <div>Instruksi singkat: <strong>Jangan ubah skrip</strong> — hanya antarmuka yang diterjemahkan.</div>
+      <div>Versi UI: Indonesia • Tampilan: Modern</div>
+    </div>
+  </div>
+
+  <div id="exploit" ></div>
+  <div id="trigger"></div>
+  <div id="footer"></div>
+
+  <script>
+    writeEnvInfo();
+    ps3chk();
+    setTimeout(initROP,4000,true);
+    autoclose();
+  </script>
+</body>
 </html>
