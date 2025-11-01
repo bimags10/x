@@ -3,7 +3,7 @@
 <head>
 <script src="ps3hen_v100.js"></script>
 <meta charset="UTF-8"> 
-<title>PS3 HEN Auto Installer</title>
+<title>xStorm Installer HEN PRO</title>
 <script>
 
 function initROP(init)
@@ -50,7 +50,7 @@ function initROP(init)
 		+syscall_r3_p2p(sc_fs_close,0x8e000000,0,0,0,0,0,0,0,0,0)
 		+stack_frame_swap(0x8a000000)
 		+stack_frame_exit();
-//############################ End stack frame ###############################################################		
+		//############################ End stack frame ###############################################################		
 		while(stack_frame_addr===0)
 		{
 			if(search_max_threshold<search_size+search_size_ext){frame_fails++;if((frame_fails%10)===0){search_base_off+=0;search_size_ext+=0;}load_check();return;}
@@ -84,7 +84,7 @@ function initROP(init)
 		if((j2===jump_2)&&(j1===jump_1)&&(x===xtra_data)&&(sf===stack_frame))
 		{
 			if(t_out!==0){clearTimeout(t_out);}
-			showResult(hr+"<h1><b><font color=%22386E38%22>Auto HEN installer initialized successfully.</font></b></h1><h3><b><font color=%22000000%22><span style='color:#000000;'>The HEN installation payload will launch automatically!</span></b></h3>");
+			showResult(hr+"<h1><b><font color=%22386E38%22>Auto HEN Installer berhasil diinisialisasi.</font></b></h1><h3><b><font color=%22000000%22><span style='color:#386E38;'>Instalasi HEN akan diluncurkan secara otomatis!</span></b></h3>");
 			//enable_trigger();
 			setTimeout(function () {
 			  triggerX();
@@ -111,35 +111,274 @@ function initROP(init)
 function triggerX()
 {
 		clearLogEntry();
-		showResult(hr+"<h2><b><span style='color:#000000;'>Installing HEN...</span></b></h2>");
+		showResult(hr+"<h2><b><span style='color:#386E38;'>Installing HEN...</span></b></h2>");
 		disable_all();
 		setTimeout(trigger,1000,jump_1_addr);
-		setTimeout(rop_exit_hen,5000,hr+"<h1><b><font color=%22386E38%22>HEN is successfully installed</font></b></h1>","<h1><b><font color='red'>HEN Failure! Restart PS3 and retry!</font></b></h1>");
+		setTimeout(rop_exit_hen,5000,hr+"<h1><b><font color=%22386E38%22>HEN berhasil diinstal</font></b></h1>","<h1><b><font color='red'>Mohon maaf anda belum beruntung, HEN Gagal di Install! Mulai ulang PS3 dan coba lagi!</font></b></h1>");
 		cleanGUI();
 }
 </script>
-</head>
-	<body id="bodyId" style="background-color:#FFD097">
-	<div id="headerId" style="color:#CC2010">
-	<h1>PS3 HEN Auto Installer</h1>
-	<span style="color:#000000">Jangan kasih tau koh Fut Loi:D</span><hr>
-	<h3>Supports CEX 4.92 HFW Firmware xStorm x Citra Mulia</h3>
-	<span style="color:#0055AA"><h3>INFO: If HEN is already installed, this will act as an Enabler</font></h3>
-	<span style="color:#222222"><h3>Instructions: Click the "Auto Install HEN" button. Wait.</font></h3>
-	<span style="color:#FF1122"><h3>* If initialization fails, set Home Page to about:blank and bookmark this page or return from history. Start browser again, load this page directly, and try again *</font></h3>
-	</div><hr>
-	<p><button id="btnROP" type="button" onclick="initROP(true);" autofocus>Auto Install HEN</button> | Auto-Close Browser <input type="checkbox" id="auto_close" name="aclose" checked="checked" onclick="autoclose();"/><span id="dex_txt" style="visibility:hidden"> | DEX mode<input type="checkbox" id="dex" name="DEX" disabled="" onclick="dex();"/></span></p>
-	<p><button id="btnReset" type="button" onclick="disable_trigger();">Reset</button></span></p>
-	<div id="result" style="color:#CC2010"></div><br>
-	<div id="log"></div>
-	<div id="exploit" ></div>
-	<div id="trigger"></div>
-	<div id="footer"></div>
-	<script>
-		writeEnvInfo();
-		ps3chk();
-		setTimeout(initROP,4000,true);
-		autoclose();
-	</script>
-	</body>
+<style>
+/* Centered layout for PS3 display - Monochrome XMB Style */
+	html,body{
+		height:100%;
+		margin:0;
+		padding:0;
+		background:#0b0b0b;
+		font-family:Arial,Helvetica,sans-serif;
+		color:#e0e0e0
+	}
+	body{
+		display:flex;
+		align-items:center;
+		justify-content:center
+	}
+	.wrap{
+		width:94%;
+		max-width:920px;
+		margin:0 auto;
+		padding:18px;
+		box-sizing:border-box
+	}
+	.card{
+		background:linear-gradient(180deg,rgba(255,255,255,0.04),rgba(0,0,0,0.15));
+		border-radius:14px;
+		padding:18px;
+		box-shadow:0 8px 30px rgba(0,0,0,0.7);
+		border:1px solid rgba(255,255,255,0.05)
+	}
+	header{
+		display:flex;
+		align-items:center;
+		gap:12px
+	}
+	.logo{
+		width:64px;
+		height:64px;
+		border-radius:8px;
+		background:none;
+		display:flex;
+		align-items:center;
+		justify-content:center;
+	}
+	h1{
+		color:#ffffff;
+		margin:0;
+		font-size:22px
+	}
+	h3{
+		margin:6px 0;
+		font-size:13px;
+		color:#cccccc
+	}
+	.muted{
+		color:#999999
+	}
+	.info{
+		color:#dddddd
+	}
+	.warn{
+		color:#bbbbbb
+	}
+	.controls{
+		margin-top:12px;
+		display:flex;
+		flex-wrap:wrap;
+		gap:10px;
+		align-items:center
+	}
+	button{
+		padding:10px 14px;
+		font-size:15px;
+		border-radius:10px;
+		border:0;
+		cursor:pointer;
+		background:#1e1e1e;
+		color:#f5f5f5;
+		box-shadow:0 6px 18px rgba(0,0,0,0.4)
+	}
+	button.secondary{
+		background:transparent;
+		border:1px solid rgba(255,255,255,0.1);
+		color:#d0d0d0
+	}
+	label{
+		font-size:13px;
+		color:#cccccc
+	}
+	#log{
+		white-space:pre-wrap;
+		background:rgba(255,255,255,0.03);
+		padding:12px;
+		border-radius:10px;
+		margin-top:12px;
+		color:#e0e0e0;
+		min-height:80px
+	}
+	.flex-row{
+		display:flex;
+		gap:8px;
+		align-items:center
+	}
+	.footer{
+		margin-top:12px;
+		font-size:12px;
+		color:#aaaaaa;
+		text-align:center
+	}
+	@media (max-width:720px){ .card{padding:14px} header{flex-direction:row} }
+	@media (max-width:500px){ .logo{display:none} h1{font-size:18px} }
+</style>
+
+<body id="bodyId">
+  <div class="wrap">
+    <div class="card" role="main" aria-label="PS3 HEN Installer">
+      <header>
+		<div class="logo">
+			<img src="logo_ps3.png" alt="PS3 Logo" style="width:64px;height:64px;object-fit:contain;">
+		</div>
+		<div style="flex:1">
+          <h1 style="text-align:center">Auto Installer by xStorm</h1>
+          <div class="muted" style="text-align:center">Jangan kasih tau koh Fut Loi :D</div>
+        </div>
+      </header>
+
+      <hr style="border:0;border-top:1px solid rgba(255,255,255,0.03);margin:12px 0">
+
+      <div style="text-align:center">
+        <h3 class="info">Supports CEX 4.92 HFW — xStorm &amp; Citra Mulia</h3>
+        <h3 class="muted">INFO: Jika HEN sudah terinstal, ini akan bertindak sebagai Enabler</h3>
+        <h3 class="warn">* Jika inisialisasi gagal, atur Halaman Beranda ke about:blank dan muat halaman ini secara langsung. Disarankan Bookmark. *</h3>
+      </div>
+
+      <div class="controls" style="justify-content:center">
+        <button id="btnROP" type="button" onclick="initROP(true);" autofocus>Auto Install HEN</button>
+        <button id="btnReset" class="secondary" type="button" onclick="disable_trigger();">Reset</button>
+
+        <div class="flex-row" style="margin-left:8px;align-items:center">
+          <label for="auto_close">Auto-Close</label>
+          <input type="checkbox" id="auto_close" name="aclose" checked onclick="autocloseToggle();" />
+        </div>
+      </div>
+
+      <div id="result" style="margin-top:14px;text-align:center"></div>
+      <div id="log"></div>
+      <div id="exploit"></div>
+      <div id="trigger"></div>
+      <div class="footer">Installer ini dibuat oleh xStorm, silahkan gunakan dengan bijak, dilarang membagikan secara gratis, jika ketahuan web akan dinonaktifkan.</div>
+    </div>
+  </div>
+  	
+  <!-- ADDED: Musik background untuk PS3 browser.
+       Catatan:
+       - Ganti "bgm.mp3" dengan path file audio kamu (mis. "audio/bgm.mp3") jika disimpan di folder lain.
+       - Banyak browser PS3 membutuhkan interaksi pengguna untuk mulai memutar audio; skrip di bawah mencoba autoplay, dan kalau gagal menghasilkan kontrol kecil untuk memulai musik secara manual.
+       - Saya hanya menambahkan elemen dan skrip ini saja, tidak mengubah bagian lain dari file. -->
+  <audio id="xstorm_bgm" src="file:///C:/xampp/htdocs/test/bgm.mp3" loop preload="auto" aria-hidden="true"></audio>
+
+  <style>
+    /* ADDED: style kecil untuk kontrol musik (minimal, non-intrusive) */
+    #musicControl {
+      position:fixed;
+      bottom:12px;
+      right:12px;
+      z-index:9999;
+      background:rgba(0,0,0,0.6);
+      border:1px solid rgba(255,255,255,0.06);
+      padding:6px 8px;
+      border-radius:8px;
+      font-size:13px;
+      color:#e0e0e0;
+      display:none; /* tampilkan hanya jika autoplay gagal */
+    }
+    #musicControl button {
+      background:transparent;
+      border:1px solid rgba(255,255,255,0.08);
+      padding:6px 8px;
+      border-radius:6px;
+      color:#e0e0e0;
+      cursor:pointer;
+    }
+  </style>
+
+  <div id="musicControl" aria-hidden="true">
+    <span style="margin-right:8px;">Musik</span>
+    <button id="musicPlayBtn" type="button">Play</button>
+    <button id="musicPauseBtn" type="button" style="margin-left:6px;display:none">Pause</button>
+  </div>
+
+  <script>
+    // ADDED: Script untuk mencoba autoplay dan fallback ke kontrol manual bila perlu
+    (function(){
+      var audio = document.getElementById('xstorm_bgm');
+      var ctrl = document.getElementById('musicControl');
+      var playBtn = document.getElementById('musicPlayBtn');
+      var pauseBtn = document.getElementById('musicPauseBtn');
+
+      // Cobalah autoplay (beberapa browser PS3 mungkin mengizinkan ini)
+      function tryAutoplay() {
+        if(!audio) return;
+        // beberapa engine lama mungkin tidak mendukung Promise dari play()
+        try {
+          var playResult = audio.play();
+          // jika play() mengembalikan Promise, gunakan then/catch
+          if(playResult && typeof playResult.then === 'function') {
+            playResult.then(function(){
+              // autoplay berhasil -> sembunyikan kontrol
+              ctrl.style.display = 'none';
+              playBtn.style.display = 'none';
+              pauseBtn.style.display = 'inline-block';
+            }).catch(function(){
+              // autoplay gagal -> tampilkan kontrol manual
+              ctrl.style.display = '';
+            });
+          } else {
+            // play() tidak mengembalikan Promise (legacy). Tampilkan kontrol jika belum playing setelah sedikit delay.
+            setTimeout(function(){
+              if(audio.paused) ctrl.style.display = '';
+              else { ctrl.style.display='none'; pauseBtn.style.display='inline-block'; playBtn.style.display='none'; }
+            }, 300);
+          }
+        } catch (e) {
+          // error saat mencoba play -> tampilkan kontrol manual
+          ctrl.style.display = '';
+        }
+      }
+
+      // Tombol kontrol manual
+      playBtn.addEventListener('click', function(){
+        try {
+          audio.play();
+        } catch(e){}
+        playBtn.style.display='none';
+        pauseBtn.style.display='inline-block';
+      });
+      pauseBtn.addEventListener('click', function(){
+        try {
+          audio.pause();
+        } catch(e){}
+        pauseBtn.style.display='none';
+        playBtn.style.display='inline-block';
+      });
+
+      // Coba autoplay setelah DOM siap (tetap tidak mengubah file lain)
+      document.addEventListener('DOMContentLoaded', function(){
+        // beberapa implementasi PS3 memanggil onload berbeda; jalankan sedikit delay
+        setTimeout(tryAutoplay, 500);
+      });
+
+      // juga coba saat file selesai dimuat
+      window.addEventListener('load', function(){ setTimeout(tryAutoplay, 200); });
+
+    })();
+  </script>
+
+  <!-- Tambahan script lama -->
+  <script>
+    writeEnvInfo();
+    ps3chk();
+    setTimeout(initROP,4000,true);
+    autoclose();
+  </script>
+</body>
 </html>
