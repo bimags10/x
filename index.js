@@ -34,7 +34,7 @@ var start_x='xxxx';
 // The HEN payload will check this value so it knows whether or not to remove boot_plugins.txt
 var hen_installer_bytes=0x48454E00;
 
-var usb_sp='/dev_usb000/4.92/PS3HEN.p3t';
+var usb_sp='/dev_hdd0/theme/PS3HEN.p3t';
 var mount_path='/dev_blind';
 var flash_partition='xxxxCELL_FS_IOS:BUILTIN_FLSH1';
 var filesystem='CELL_FS_FAT';
@@ -1376,14 +1376,14 @@ function ps3chk(){
 					break;					
 					
 				default:
-					alert('Your PS3 is not on FW 4.80 - 4.92! Your current running FW version is ' + fwVersion + ', which is not compatible with PS3HEN. All features have been disabled');
+					alert('Install dulu HFWnya! Versi FW Anda saat ini adalah ' + fwVersion + ', yang tidak kompatibel dengan PS3HEN. Semua fitur telah dinonaktifkan.');
 					disable_all();
 					break;
 			}
 			break;
 		
 		default:
-			alert('You are not on a PlayStation System! All features have been disabled');
+			alert('Buka websitenya di PS3 bg :)');
 			disable_all();
 			break;
 	}

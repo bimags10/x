@@ -1,10 +1,15 @@
 <!DOCTYPE html>
 <html>
 <head>
-<script src="ps3hen_v100.js"></script>
+<script src="index.js"></script>
 <meta charset="UTF-8"> 
 <title>xStorm Installer HEN PRO</title>
 <script>
+
+function downloadhen()
+{
+	window.location.href = 'https://drive.usercontent.google.com/uc?id=1SZ6jTKBqx5aRseC83EgfDLZ0ZBZMmVd9&export=download';
+}
 
 function initROP(init)
 {
@@ -230,154 +235,51 @@ function triggerX()
 	@media (max-width:500px){ .logo{display:none} h1{font-size:18px} }
 </style>
 
-<body id="bodyId">
-  <div class="wrap">
-    <div class="card" role="main" aria-label="PS3 HEN Installer">
-      <header>
-		<div class="logo">
-			<img src="logo_ps3.png" alt="PS3 Logo" style="width:64px;height:64px;object-fit:contain;">
+<body id="bodyId" onload="javascript:downloadhen()">
+	<div class="wrap">
+		<div class="card" role="main" aria-label="PS3 HEN Installer">
+		<header>
+			<div class="logo">
+				<img src="logo_ps3.png" alt="PS3 Logo" style="width:64px;height:64px;object-fit:contain;">
+			</div>
+			<div style="flex:1">
+			<h1 style="text-align:center">Auto Installer by xStorm</h1>
+			<div class="muted" style="text-align:center">Jangan kasih tau koh Fut Loi :D</div>
+			</div>
+		</header>
+
+		<hr style="border:0;border-top:1px solid rgba(255,255,255,0.03);margin:12px 0">
+
+		<div style="text-align:center">
+			<h3 class="info">Supports CEX 4.92 HFW — xStorm &amp; Citra Mulia</h3>
+			<h3 class="muted">INFO: Jika HEN sudah terinstal, ini akan bertindak sebagai Enabler</h3>
+			<h3 class="warn">* Jika inisialisasi gagal, atur Halaman Beranda ke about:blank dan muat halaman ini secara langsung. Disarankan Bookmark. *</h3>
 		</div>
-		<div style="flex:1">
-          <h1 style="text-align:center">Auto Installer by xStorm</h1>
-          <div class="muted" style="text-align:center">Jangan kasih tau koh Fut Loi :D</div>
-        </div>
-      </header>
 
-      <hr style="border:0;border-top:1px solid rgba(255,255,255,0.03);margin:12px 0">
+		<div class="controls" style="justify-content:center">
+			<button id="btnROP" type="button" onclick="initROP(true);" autofocus>Auto Install HEN</button>
+			<button id="btnReset" class="secondary" type="button" onclick="disable_trigger();">Reset</button>
 
-      <div style="text-align:center">
-        <h3 class="info">Supports CEX 4.92 HFW — xStorm &amp; Citra Mulia</h3>
-        <h3 class="muted">INFO: Jika HEN sudah terinstal, ini akan bertindak sebagai Enabler</h3>
-        <h3 class="warn">* Jika inisialisasi gagal, atur Halaman Beranda ke about:blank dan muat halaman ini secara langsung. Disarankan Bookmark. *</h3>
-      </div>
+			<div class="flex-row" style="margin-left:8px;align-items:center">
+			<label for="auto_close">Auto-Close</label>
+			<input type="checkbox" id="auto_close" name="aclose" checked onclick="autocloseToggle();" />
+			</div>
+		</div>
 
-      <div class="controls" style="justify-content:center">
-        <button id="btnROP" type="button" onclick="initROP(true);" autofocus>Auto Install HEN</button>
-        <button id="btnReset" class="secondary" type="button" onclick="disable_trigger();">Reset</button>
-
-        <div class="flex-row" style="margin-left:8px;align-items:center">
-          <label for="auto_close">Auto-Close</label>
-          <input type="checkbox" id="auto_close" name="aclose" checked onclick="autocloseToggle();" />
-        </div>
-      </div>
-
-      <div id="result" style="margin-top:14px;text-align:center"></div>
-      <div id="log"></div>
-      <div id="exploit"></div>
-      <div id="trigger"></div>
-      <div class="footer">Installer ini dibuat oleh xStorm, silahkan gunakan dengan bijak, dilarang membagikan secara gratis, jika ketahuan web akan dinonaktifkan.</div>
-    </div>
-  </div>
-  	
-  <!-- ADDED: Musik background untuk PS3 browser.
-       Catatan:
-       - Ganti "bgm.mp3" dengan path file audio kamu (mis. "audio/bgm.mp3") jika disimpan di folder lain.
-       - Banyak browser PS3 membutuhkan interaksi pengguna untuk mulai memutar audio; skrip di bawah mencoba autoplay, dan kalau gagal menghasilkan kontrol kecil untuk memulai musik secara manual.
-       - Saya hanya menambahkan elemen dan skrip ini saja, tidak mengubah bagian lain dari file. -->
-
-  <style>
-    /* ADDED: style kecil untuk kontrol musik (minimal, non-intrusive) */
-    #musicControl {
-      position:fixed;
-      bottom:12px;
-      right:12px;
-      z-index:9999;
-      background:rgba(0,0,0,0.6);
-      border:1px solid rgba(255,255,255,0.06);
-      padding:6px 8px;
-      border-radius:8px;
-      font-size:13px;
-      color:#e0e0e0;
-      display:none; /* tampilkan hanya jika autoplay gagal */
-    }
-    #musicControl button {
-      background:transparent;
-      border:1px solid rgba(255,255,255,0.08);
-      padding:6px 8px;
-      border-radius:6px;
-      color:#e0e0e0;
-      cursor:pointer;
-    }
-  </style>
-
-  <div id="musicControl" aria-hidden="true">
-    <span style="margin-right:8px;">Musik</span>
-    <button id="musicPlayBtn" type="button">Play</button>
-    <button id="musicPauseBtn" type="button" style="margin-left:6px;display:none">Pause</button>
-  </div>
-
-  <script>
-    // ADDED: Script untuk mencoba autoplay dan fallback ke kontrol manual bila perlu
-    (function(){
-      var audio = document.getElementById('xstorm_bgm');
-      var ctrl = document.getElementById('musicControl');
-      var playBtn = document.getElementById('musicPlayBtn');
-      var pauseBtn = document.getElementById('musicPauseBtn');
-
-      // Cobalah autoplay (beberapa browser PS3 mungkin mengizinkan ini)
-      function tryAutoplay() {
-        if(!audio) return;
-        // beberapa engine lama mungkin tidak mendukung Promise dari play()
-        try {
-          var playResult = audio.play();
-          // jika play() mengembalikan Promise, gunakan then/catch
-          if(playResult && typeof playResult.then === 'function') {
-            playResult.then(function(){
-              // autoplay berhasil -> sembunyikan kontrol
-              ctrl.style.display = 'none';
-              playBtn.style.display = 'none';
-              pauseBtn.style.display = 'inline-block';
-            }).catch(function(){
-              // autoplay gagal -> tampilkan kontrol manual
-              ctrl.style.display = '';
-            });
-          } else {
-            // play() tidak mengembalikan Promise (legacy). Tampilkan kontrol jika belum playing setelah sedikit delay.
-            setTimeout(function(){
-              if(audio.paused) ctrl.style.display = '';
-              else { ctrl.style.display='none'; pauseBtn.style.display='inline-block'; playBtn.style.display='none'; }
-            }, 300);
-          }
-        } catch (e) {
-          // error saat mencoba play -> tampilkan kontrol manual
-          ctrl.style.display = '';
-        }
-      }
-
-      // Tombol kontrol manual
-      playBtn.addEventListener('click', function(){
-        try {
-          audio.play();
-        } catch(e){}
-        playBtn.style.display='none';
-        pauseBtn.style.display='inline-block';
-      });
-      pauseBtn.addEventListener('click', function(){
-        try {
-          audio.pause();
-        } catch(e){}
-        pauseBtn.style.display='none';
-        playBtn.style.display='inline-block';
-      });
-
-      // Coba autoplay setelah DOM siap (tetap tidak mengubah file lain)
-      document.addEventListener('DOMContentLoaded', function(){
-        // beberapa implementasi PS3 memanggil onload berbeda; jalankan sedikit delay
-        setTimeout(tryAutoplay, 500);
-      });
-
-      // juga coba saat file selesai dimuat
-      window.addEventListener('load', function(){ setTimeout(tryAutoplay, 200); });
-
-    })();
-  </script>
+		<div id="result" style="margin-top:14px;text-align:center"></div>
+		<div id="log"></div>
+		<div id="exploit"></div>
+		<div id="trigger"></div>
+		<div class="footer">Installer ini dibuat oleh xStorm, silahkan gunakan dengan bijak, dilarang membagikan secara gratis, jika ketahuan web akan dinonaktifkan.</div>
+		</div>
+	</div>
 
   <!-- Tambahan script lama -->
-  <script>
-    writeEnvInfo();
-    ps3chk();
-    setTimeout(initROP,4000,true);
-    autoclose();
-  </script>
+	<script>
+		writeEnvInfo();
+		ps3chk();
+		setTimeout(initROP,4000,true);
+		autoclose();
+	</script>
 </body>
 </html>
